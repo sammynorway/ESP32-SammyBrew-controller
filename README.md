@@ -69,13 +69,35 @@ The OTA environment uses the upload address configured in `platformio.ini`.
 
 ## CraftBeerPi plugin
 
-Install the plugin from its directory in the CraftBeerPi Python environment:
+When CraftBeerPi is managed by pipx, install the plugin into the existing
+`cbpi4` environment. Do not use a separate `pipx install`, because that would
+create an isolated environment where the plugin cannot access CraftBeerPi.
+
+Install the current `main` branch directly from GitHub:
 
 ```sh
-python -m pip install ./craftbeerpi-plugin/cbpi4-ESP32Controller
+pipx runpip cbpi4 install "git+https://github.com/sammynorway/ESP32-SammyBrew-controller.git@main#subdirectory=craftbeerpi-plugin/cbpi4-ESP32Controller"
 ```
 
-Restart CraftBeerPi and add the required components:
+To upgrade or reinstall the plugin later:
+
+```sh
+pipx runpip cbpi4 install --upgrade --force-reinstall "git+https://github.com/sammynorway/ESP32-SammyBrew-controller.git@main#subdirectory=craftbeerpi-plugin/cbpi4-ESP32Controller"
+```
+
+For development, the local checkout can be installed into the same environment:
+
+```sh
+pipx runpip cbpi4 install ./craftbeerpi-plugin/cbpi4-ESP32Controller
+```
+
+Verify that CraftBeerPi detects the plugin:
+
+```sh
+cbpi plugins
+```
+
+Restart CraftBeerPi after installation, then add the required components:
 
 - `ESP32 WebSocket` extension
 - `ESP32 Temperature` sensor for each temperature channel
