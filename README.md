@@ -1,5 +1,25 @@
 # ESP32-SammyBrew-controller
 
+> [!CAUTION]
+> ## FARE – NETTSPENNING / LIVSFARE
+> Dette prosjektet kan styre varmeelementer, pumper og annet bryggeutstyr som
+> er koblet til nettspenning. Feil prosjektering, komponentvalg, montering,
+> kobling eller bruk kan føre til elektrisk støt, brann, alvorlig personskade
+> eller død. Alt arbeid på nettspenningssiden skal prosjekteres, utføres,
+> kontrolleres og dokumenteres av kvalifisert elektrofaglig personell og, når
+> regelverket krever det, av en virksomhet registrert i
+> Elvirksomhetsregisteret. Arbeid aldri på spenningssatt utstyr. Programvaren
+> er ikke sikkerhetssertifisert og må aldri være eneste sikkerhetsbarriere.
+>
+> **DANGER – MAINS VOLTAGE / RISK OF DEATH:** This project can control
+> mains-powered heating elements, pumps and other brewing equipment. Incorrect
+> design, component selection, assembly, wiring or use can cause electric
+> shock, fire, serious injury or death. All mains-voltage work must be designed,
+> installed, inspected and documented by appropriately qualified electrical
+> professionals and, where required by local law, a registered electrical
+> contractor. Never work on energized equipment. This software is not safety
+> certified and must never be the only safety barrier.
+
 ESP32-based brewing controller with CraftBeerPi 4 integration, WebSocket
 communication, DS18B20 temperature monitoring, SSR control, circulation-pump
 control and local safety checks.
@@ -126,4 +146,7 @@ ports 23 or 8000 directly to the internet.
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+MIT License. See [LICENSE](LICENSE). The license covers the software and permits
+reuse, modification and distribution, including commercial use. Its
+"as-is/no-warranty" terms are not a safety approval, product certification or
+substitute for compliance with applicable electrical laws and standards.
