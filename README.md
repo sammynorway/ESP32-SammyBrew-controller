@@ -1,0 +1,107 @@
+# ESP32-SammyBrew-controller
+
+ESP32-based brewing controller with CraftBeerPi 4 integration, WebSocket
+communication, DS18B20 temperature monitoring, SSR control, circulation-pump
+control and local safety checks.
+
+Author: **Anders Samuelsen** (`sammyNorway`)
+
+## Repository layout
+
+```text
+ESP32-SammyBrew-controller/
+├── esp32/                         PlatformIO firmware
+│   ├── include/
+│   │   └── secrets.example.h
+│   ├── src/
+│   │   └── main.cpp
+│   └── platformio.ini
+├── craftbeerpi-plugin/
+│   └── cbpi4-ESP32Controller/     CraftBeerPi 4 plugin
+├── docs/
+│   ├── protocol.md
+│   ├── safety.md
+│   └── wiring.md
+├── LICENSE
+└── README.md
+```
+
+## Features
+
+- ESP32-S3 firmware built with PlatformIO and Arduino
+- Two DS18B20 temperature channels: kettle and HLT
+- Two SSR heater outputs with time-proportional power control
+- Circulation-pump output
+- CraftBeerPi 4 actors, sensors and WebSocket extension
+- Application handshake, ping/pong monitoring and acknowledgements
+- Local shutdown on lost communication, invalid or stale temperature, and
+  overtemperature
+- Arduino OTA support with password supplied through an environment variable
+
+## Firmware setup
+
+1. Install [PlatformIO](https://platformio.org/).
+2. Copy the example credentials file:
+
+   ```sh
+   cd esp32
+   cp include/secrets.example.h include/secrets.h
+   ```
+
+3. Edit `include/secrets.h` with the local Wi-Fi credentials. This file is
+   ignored by Git.
+4. Update `WS_HOST` in `src/main.cpp` if CraftBeerPi uses another address.
+5. Set the OTA password before building or uploading:
+
+   ```sh
+   export ESP32_OTA_PASSWORD='choose-a-strong-password'
+   export BEER_ESP32_OTA_PASSWORD="$ESP32_OTA_PASSWORD"
+   ```
+
+6. Build and upload over USB:
+
+   ```sh
+   pio run -e esp32-s3-usb
+   pio run -e esp32-s3-usb -t upload
+   ```
+
+The OTA environment uses the upload address configured in `platformio.ini`.
+
+## CraftBeerPi plugin
+
+Install the plugin from its directory in the CraftBeerPi Python environment:
+
+```sh
+python -m pip install ./craftbeerpi-plugin/cbpi4-ESP32Controller
+```
+
+Restart CraftBeerPi and add the required components:
+
+- `ESP32 WebSocket` extension
+- `ESP32 Temperature` sensor for each temperature channel
+- `ESP32 Kettle Heater` and/or `ESP32 HLT Heater`
+- `ESP32 Circulation Pump` when used
+
+The ESP32 connects to `ws://<craftbeerpi-host>:8000/esp32/ws` by default.
+
+## Documentation
+
+- [WebSocket protocol](docs/protocol.md)
+- [Wiring](docs/wiring.md)
+- [Safety principles](docs/safety.md)
+
+## Security and electrical safety
+
+Never commit `esp32/include/secrets.h`, passwords, tokens or exported
+CraftBeerPi configuration. The controller switches mains-powered equipment;
+use correctly rated, isolated components and have mains wiring performed or
+checked by a qualified person. Software safety checks are not a replacement
+for independent thermal cut-outs, fuses and emergency disconnection.
+
+The current WebSocket endpoint and firmware Telnet logging do not authenticate
+clients. Run them only on a trusted, firewalled brewing network; do not expose
+ports 23 or 8000 directly to the internet.
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
