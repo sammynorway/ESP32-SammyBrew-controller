@@ -24,7 +24,6 @@ ESP32-based brewing controller with CraftBeerPi 4 integration, WebSocket
 communication, DS18B20 temperature monitoring, SSR control, circulation-pump
 control and local safety checks.
 
-Author: **Anders Samuelsen** (`sammyNorway`)
 
 ## Repository layout
 
